@@ -16,7 +16,9 @@ import { FormFieldType } from "./forms/PatientForm";
 import { Input } from "./ui/input";
 
 import "react-datepicker/dist/react-datepicker.css";
+import { Checkbox } from "./ui/checkbox";
 import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
+import { Textarea } from "./ui/textarea";
 
 interface Props {
   control: Control<any>;
@@ -64,6 +66,18 @@ const RenderField = ({ field, props }: { field: any; props: Props }) => {
             />
           </FormControl>
         </div>
+      );
+
+    case FormFieldType.TEXTAREA:
+      return (
+        <FormControl>
+          <Textarea
+            placeholder={placeholder}
+            {...field}
+            className="shad-textArea "
+            disabled={props.disabled}
+          />
+        </FormControl>
       );
 
     case FormFieldType.PHONE_INPUT:
@@ -122,13 +136,30 @@ const RenderField = ({ field, props }: { field: any; props: Props }) => {
           </Select>
         </FormControl>
       );
+
+    case FormFieldType.CHECKBOX:
+      return (
+        <FormControl>
+          <div className="flex items-center gap-4">
+            <Checkbox
+              id={props.name}
+              checked={field.value}
+              onCheckedChange={field.onChange}
+            />
+            <label htmlFor={props.name} className="checkbox-label">
+              {props.label}
+            </label>
+          </div>
+        </FormControl>
+      );
+
     default:
       break;
   }
 };
 
 const CustomFormField = (props: Props) => {
-  const { control, fieldType, name, label, placeholder } = props;
+  const { control, fieldType, name, label } = props;
   return (
     <FormField
       control={control}
